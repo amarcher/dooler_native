@@ -1,0 +1,260 @@
+.words {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-template-rows: repeat(5, auto);
+	grid-auto-flow: column;
+	grid-column-gap: 10px;
+	grid-row-gap: 10px;
+
+	max-width: 90%;
+	margin: 60px auto;
+}
+
+.word {
+	border-radius: 5px;
+	padding: 20px 0;
+	font-size: 24px;
+	background: #1e1e1e;
+	min-height: 60px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	user-select: none;
+	cursor: pointer;
+	transition: background 0.3s;
+}
+
+.word.guessed-this-turn {
+	box-shadow: 0 0 10px 10px #B82;
+}
+
+.word.neutral {
+	cursor: auto;
+}
+
+.word.non-agent-player-one {
+	background: linear-gradient(to right, #721932, #1e1e1e);
+}
+
+.word.non-agent-player-two {
+	background: linear-gradient(to right, #1e1e1e, #721932);
+}
+
+.word.non-agent-player-one.non-agent-player-two {
+	background: #721932;
+	cursor: auto;
+}
+
+.word.agent {
+	background: #029192;
+	cursor: auto;
+}
+
+.word.assasin {
+	background: #fff !important;
+	color: black;
+	cursor: auto;
+}
+
+.word.my-agent,
+.color-agent {
+	color: #029192;
+}
+
+.word.my-non-agent,
+.color-non-agent {
+	color: grey;
+}
+
+.word.my-assasin,
+.color-assasin {
+	color: #DD1919;
+}
+
+@media (hover: hover) {
+	.word:not(.guessed):not(.neutral):hover {
+		background: #5cbf2a;
+	}
+}
+
+.player-select {
+	flex: 0 1 350px;
+}
+
+.players {
+	align-items: center;
+	display: flex;
+	flex: 0 1 350px;
+	justify-content: flex-end;
+}
+
+.player {
+	background: no-repeat url('../businessman.svg');
+	background-size: contain;
+	height: 24px;
+	width: 24px;
+}
+
+.player-info,
+.header {
+	align-items: flex-start;
+	display: flex;
+	justify-content: space-between;
+}
+
+.player-info {
+	align-items: flex-end;
+	padding: 10px 5%;
+}
+
+.header {
+	padding: 0 5%;
+}
+
+.player-display {
+	font-size: 24px;
+	line-height: 1.5;
+}
+
+.title {
+	font-size: 48px;
+	line-height: 72px;
+}
+
+.enter-game-container {
+	align-items: center;
+	display: flex;
+	height: 100vh;
+	justify-content: center;
+}
+
+.enter-game {
+	text-align: center;
+	user-select: none;
+}
+
+.enter-game-input {
+	margin: 12px;
+	text-align: center;
+}
+
+.enter-game-button {
+	transition: opacity 0.3s;
+}
+
+.enter-game-button:disabled {
+	opacity: 0;
+}
+
+.info-view {
+	display: flex;
+	flex: 0 1 300px;
+	justify-content: flex-end;
+	padding: 24px 0;
+}
+
+.info-container {
+	position: relative;
+}
+
+.info-container .info {
+	background: #1e1e1e;
+	border-radius: 5px;
+	margin-top: 10px;
+	opacity: 0;
+	padding: 12px;
+	position: absolute;
+	right: 0;
+	transition: opacity,box-shadow 0.3s;
+	width: 600px;
+	z-index: -1;
+
+}
+
+.info-container.open .info-button {
+	background: #5cbf2a;
+	user-select: none;
+}
+
+.info-container.open .info {
+	box-shadow: 0 0 40px 20px #0ff;
+	opacity: 1;
+	z-index: 0;
+}
+
+.info-how-to-play {
+	flex: 1 0 auto;
+}
+
+.info-attribution {
+	flex: 0 0 auto;
+	font-size: 10px;
+	margin-top: 24px;
+	text-align: center;
+}
+
+.info-how-to-play p,
+.info-how-to-play ol {
+	line-height: 20px;
+	margin: 12px 0;
+}
+
+.info-how-to-play ol {
+	margin: 6px 6px;
+}
+
+.turn-view {
+	padding: 24px 0;
+	flex: 0 1 300px;
+}
+
+.turn {
+	background: no-repeat url('../mushroom.svg');
+	background-size: contain;
+	display: inline-block;
+	height: 24px;
+	margin: 0 3px;
+	width: 24px;
+}
+
+.game-over,
+.you-win {
+	font-size: 24px;
+}
+
+.you-win {
+	margin-top: 12px;
+	position: absolute;
+}
+
+.clue-view {
+	flex: 1 1 auto;
+	padding: 24px 0;
+	text-align: center;
+}
+
+.clue-for-guesser {
+	font-size: 24px;
+}
+
+.clue-for-guesser-word {
+	margin-right: 12px;
+}
+
+.word-input,
+.number-input {
+	margin-right: 6px;
+}
+
+.word-input {
+	max-width: 180px 0;
+	text-transform:uppercase
+}
+
+.number-input {
+	max-width: 50px;
+}
+
+.light {
+	color: #898989;
+}
