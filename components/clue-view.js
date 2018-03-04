@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { View, TextInput, Button } from 'react-native';
 
 import { getClue, getGuessesLeft, getTurnsLeft, giveClue } from '../stores/turns-store';
 import { startNew } from '../stores/game-store';
@@ -64,7 +65,7 @@ export class BaseClueView extends Component {
 		}
 
 		const clueWord = this.props.clue && this.props.clue.word && (
-			<div className="clue-for-guesser">
+			<View className="clue-for-guesser">
 				<span className="clue-for-guesser-word"><span className="light">Clue:</span>&nbsp;{this.props.clue.word}</span>
 				<span className="clue-for-guesser-number">
 					<span className="light">Guesses:</span>&nbsp;
@@ -72,13 +73,13 @@ export class BaseClueView extends Component {
 						{this.props.guessesLeft} / {this.props.clue.number}
 					</span>
 				</span>
-			</div>
+			</View>
 		);
 
 		return (
-			<div className="clue">
+			<View className="clue">
 				{clueWord}
-			</div>
+			</View>
 		);
 	}
 
@@ -88,13 +89,15 @@ export class BaseClueView extends Component {
 		}
 
 		return (
-			<form onSubmit={this.onSubmitClue}>
-				<input className="word-input" placeholder="WORD" value={this.state.word} onChange={this.onWordChange} />
-				<input className="number-input" pattern="[0-9]*" value={this.state.number} onChange={this.onNumberChange} />
-				<button className="submit-clue-button" type="submit" disabled={!this.state.word}>
-					Enter
-				</button>
-			</form>
+			<View>
+				<TextInput className="word-input" placeholder="WORD" value={this.state.word} onChange={this.onWordChange} />
+				<TextInput className="number-input" pattern="[0-9]*" value={this.state.number} onChange={this.onNumberChange} />
+				<Button
+					disabled={!this.state.word}
+					onPress={this.onSubmitClue}
+					title="Enter"
+				/>
+			</View>
 
 		);
 	}
@@ -103,17 +106,17 @@ export class BaseClueView extends Component {
 		if (this.props.turnsLeft > 0) return null;
 
 		return (
-			<button type="button" onClick={() => this.props.startNew()}>Start New Game</button>
+			<Button type="button" onPress={() => this.props.startNew()} title="Start New Game" />
 		);
 	}
 
 	render() {
 		return (
-			<div className="clue-view">
+			<View className="clue-view">
 				{this.maybeRenderStartNewGame()}
 				{this.maybeRenderClue()}
 				{this.maybeRenderInput()}
-			</div>
+			</View>
 		);
 	}
 }

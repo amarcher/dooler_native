@@ -3,7 +3,7 @@ import { wsEvent, wsConnected } from '../stores';
 let connectingPromise;
 let ws;
 
-const HOST = window.location.origin.replace(/^http/, 'ws');
+const HOST = 'wss://www.dooler.com/';
 const RECONNECT_INTERVAL = 5000;
 const READY_STATES = {
 	CONNECTING: 0,

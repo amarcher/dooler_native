@@ -13,7 +13,7 @@ const INITIAL_STATE = {
 	wordsGuessedThisTurn: [],
 };
 
-const reducer = createReducer({
+export const reducer = createReducer({
 	[updateTurnsLeft]: (state, payload) => ({
 		...state,
 		turnsLeft: payload,

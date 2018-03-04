@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import { Text } from 'react-native';
 
 export default class NoResults extends Component {
 	render() {
 		return (
-			<div>
+			<Text>
 				No Results
-			</div>
+			</Text>
 		);
 	}
 }

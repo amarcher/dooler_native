@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Button } from 'react-native';
 
 import { endTurn, getGuessesLeft, getTurnsLeft } from '../stores/turns-store';
 import { getPlayerId } from '../stores/player-id-store';
@@ -23,9 +24,7 @@ export class BaseEndTurn extends Component {
 		if (!this.props.playerId || this.props.guessesLeft === 0 || this.props.turnsLeft < 1) return null;
 
 		return (
-			<button className="end-turn" type="button" onClick={this.props.endTurn}>
-				End Turn
-			</button>
+			<Button onPress={this.props.endTurn} title="End Turn" />
 		);
 	}
 }

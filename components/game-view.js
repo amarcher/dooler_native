@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { View } from 'react-native';
 
 import Word from './word';
 
@@ -31,9 +32,9 @@ export default class GameView extends Component {
 		}
 
 		return (
-			<div className="words">
+			<View className="words">
 				{this.renderWords()}
-			</div>
+			</View>
 		);
 	}
 }

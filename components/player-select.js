@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { View, Text, Button } from 'react-native';
 
 import { changePlayerId, getPlayerId } from '../stores/player-id-store';
 
@@ -24,9 +25,11 @@ export class BasePlayerSelect extends Component {
 		const text = playerId ? `Be player ${playerId}` : 'Be neutral';
 
 		return (
-			<button type="button" onClick={() => this.props.changePlayerId({ playerId })} key={`player${playerId}`}>
-				{text}
-			</button>
+			<Button
+				key={`player${playerId}`}
+				title={text}
+				onPress={() => this.props.changePlayerId({ playerId })}
+			/>
 		);
 	}
 
@@ -35,10 +38,10 @@ export class BasePlayerSelect extends Component {
 		const text = this.props.playerId ? `You are player ${this.props.playerId}` : 'Choose a player';
 
 		return (
-			<div className="player-select">
-				<div className="player-display">{text}</div>
+			<View className="player-select">
+				<Text className="player-display">{text}</Text>
 				{buttons}
-			</div>
+			</View>
 		);
 	}
 }

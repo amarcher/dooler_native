@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { View, Text, Image, StyleSheet } from 'react-native';
 
 import { getTurnsLeft } from '../stores/turns-store';
 import { getAgentsLeft } from '../stores/game-store';
@@ -10,12 +11,19 @@ const propTypes = {
 	turnsLeft: PropTypes.number.isRequired,
 };
 
+const styles = StyleSheet.create({
+	turn: {
+		height: 24,
+		width: 24,
+	},
+});
+
 export class BaseTurnView extends Component {
 	maybeRenderWin() {
 		if (this.props.agentsLeft !== 0) return null;
 
 		return (
-			<div className="you-win">You Win!</div>
+			<Text>You Win!</Text>
 		);
 	}
 
@@ -24,23 +32,23 @@ export class BaseTurnView extends Component {
 
 		if (turnsLeft < 1) {
 			return (
-				<div className="game-over">Game Over</div>
+				<Text>Game Over</Text>
 			);
 		}
 
 		return Array(turnsLeft).fill().map((_el, index) => (
-			<div className="turn" key={index} /> // eslint-disable-line react/no-array-index-key
+			<Image source={require('../img/mushroom.svg')} style={styles.turn} key={index} /> // eslint-disable-line react/no-array-index-key
 		));
 	}
 
 	render() {
 		return (
-			<div className="turn-view">
-				<div className="turns-left">
+			<View className="turn-view">
+				<View className="turns-left">
 					{this.renderTurns()}
-				</div>
+				</View>
 				{this.maybeRenderWin()}
-			</div>
+			</View>
 		);
 	}
 }

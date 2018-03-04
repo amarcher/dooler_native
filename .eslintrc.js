@@ -3,6 +3,7 @@ module.exports = {
 	"rules": {
 		"indent": ["error", "tab"],
 		"no-tabs": "off",
+		"global-require": "off",
 		"import/prefer-default-export": "off",
 		"react/jsx-indent": ["error", "tab"],
 		"react/jsx-indent-props": ["error", "tab"],

@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { View } from 'react-native';
 
 import ClueView from './clue-view';
 import PlayerView from './player-view';
 import GameView from './game-view';
-import InfoView from './info-view';
 import TurnView from './turn-view';
 import PlayerSelect from './player-select';
 import EndTurn from './end-turn';
 import { enterGame, getGame } from '../stores/game-store';
-import { enableNotifications } from '../utils/notifications';
 
 const propTypes = {
 	enterGame: PropTypes.func.isRequired,
@@ -30,9 +29,6 @@ export class BaseContainer extends Component {
 		const { gameId } = this.props;
 
 		this.props.enterGame({ gameId });
-
-		enableNotifications();
-		document.title = gameId;
 	}
 
 	render() {
@@ -43,19 +39,18 @@ export class BaseContainer extends Component {
 		}
 
 		return (
-			<div className="container">
-				<div className="header">
+			<View>
+				<View>
 					<TurnView />
 					<ClueView />
-					<InfoView />
-				</div>
+				</View>
 				<GameView game={game} />
-				<div className="player-info">
+				<View>
 					<PlayerSelect />
 					<EndTurn />
 					<PlayerView />
-				</div>
-			</div>
+				</View>
+			</View>
 		);
 	}
 }
@@ -63,8 +58,8 @@ export class BaseContainer extends Component {
 BaseContainer.propTypes = propTypes;
 BaseContainer.defaultProps = defaultProps;
 
-function mapStateToProps(state) {
-	const gameId = state.router.location.pathname.replace('/', '');
+function mapStateToProps(state, ownProps) {
+	const { gameId } = ownProps.navigation.state.params;
 
 	return {
 		game: getGame(state),

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { isAgent, isAssasin, isGuessed } from '../rules/words';
+import { Button } from 'react-native';
 
+import { isAgent, isAssasin, isGuessed } from '../rules/words';
 import { makeGuess } from '../stores/game-store';
 import { getPlayerId } from '../stores/player-id-store';
 
@@ -29,10 +30,10 @@ export class BaseWord extends Component {
 	constructor(props) {
 		super(props);
 
-		this.onClick = this.onClick.bind(this);
+		this.onPress = this.onPress.bind(this);
 	}
 
-	onClick(e) {
+	onPress(e) {
 		e.preventDefault();
 
 		const {
@@ -63,9 +64,12 @@ export class BaseWord extends Component {
 		});
 
 		return (
-			<button type="button" className={className} onClick={this.onClick} disabled={!role || isGuessed(revealed, playerId)}>
-				{word}
-			</button>
+			<Button
+				className={className}
+				onPress={this.onPress}
+				disabled={!role || isGuessed(revealed, playerId)}
+				title={word}
+			/>
 		);
 	}
 }
