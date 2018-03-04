@@ -15,7 +15,7 @@ export default class GameView extends Component {
 	renderWords() {
 		const { game } = this.props;
 
-		return Object.keys(game.words).map(word => (
+		const words = Object.keys(game.words).map(word => (
 			<Word
 				word={word}
 				guessedThisTurn={game.words[word].guessedThisTurn}
@@ -23,6 +23,13 @@ export default class GameView extends Component {
 				revealed={game.words[word].roleRevealedForClueGiver}
 				key={word}
 			/>
+		));
+
+		return new Array(5).fill().map((_, index) => (
+			// eslint-disable-next-line react/no-array-index-key
+			<View style={{ flex: 1, flexDirection: 'row', alignSelf: 'stretch' }} key={index}>
+				{words.slice(5 * index, 5 * (index + 1))}
+			</View>
 		));
 	}
 
@@ -32,7 +39,10 @@ export default class GameView extends Component {
 		}
 
 		return (
-			<View className="words">
+			<View style={{
+				flexGrow: 1, flexShrink: 0, alignSelf: 'stretch', backgroundColor: 'black',
+			}}
+			>
 				{this.renderWords()}
 			</View>
 		);

@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Text, TextInput, StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
+import Button from './Button';
+import Text from './Text';
+import TextInput from './TextInput';
 
-const styles = StyleSheet.create({
+const styles = {
 	gameInput: {
-		height: 40,
-		borderColor: 'gray',
-		borderWidth: 1,
+		marginBottom: 24,
 	},
-});
+	container: {
+		backgroundColor: 'black',
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	title: {
+		fontSize: 48,
+		lineHeight: 72,
+		textAlign: 'center',
+		padding: 12,
+	},
+};
 
 const propTypes = {
 	navigation: PropTypes.shape({
@@ -45,16 +58,18 @@ export default class EnterGame extends Component {
 		const { gameId } = this.state;
 
 		return (
-			<View>
-				<Text>Dooler</Text>
+			<View style={styles.container}>
+				<Text style={styles.title}>Dooler</Text>
 				<TextInput
 					placeholder="Enter Game Code"
+					placeholderTextColor="gray"
 					disabled={!gameId}
 					value={gameId}
 					onChangeText={this.onChangeText}
 					style={styles.gameInput}
 				/>
 				<Button
+					disabled={!gameId}
 					onPress={this.onSubmit}
 					title="Enter"
 				/>

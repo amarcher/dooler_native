@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
-import findParent from 'find-parent';
 
 export default class InfoView extends Component {
 	constructor(props) {
@@ -29,7 +27,7 @@ export default class InfoView extends Component {
 	}
 
 	onBodyClick(e) {
-		const targetIsInfoOrButton = findParent.byMatcher(e.target, node => node.classList.contains('info') || node.classList.contains('info-button'));
+		const targetIsInfoOrButton = e.target.classList.contains('info') || e.target.classList.contains('info-button');
 
 		if (targetIsInfoOrButton) return;
 
@@ -102,13 +100,10 @@ export default class InfoView extends Component {
 
 	render() {
 		const { isOpen } = this.state;
-		const className = classNames('info-container', {
-			open: isOpen,
-		});
 
 		return (
 			<div className="info-view">
-				<div className={className}>
+				<div className={`info-container ${isOpen ? 'open' : ''}`}>
 					<button className="info-button" type="button" onClick={this.onClick}>?</button>
 					<div className="info">
 						{this.renderHowTo()}

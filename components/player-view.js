@@ -21,7 +21,7 @@ export class BasePlayerView extends Component {
 		return Array(this.props.players).fill().map((_el, index) => (
 			<Image /* eslint-disable-next-line react/no-array-index-key */
 				key={index}
-				source={require('../img/businessman.svg')}
+				source={require('../img/businessman.png')}
 				style={styles.player}
 			/>
 		));
@@ -29,7 +29,7 @@ export class BasePlayerView extends Component {
 
 	render() {
 		return (
-			<View className="players">
+			<View>
 				{this.renderPlayers()}
 			</View>
 		);

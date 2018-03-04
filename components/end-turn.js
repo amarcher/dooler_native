@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button } from 'react-native';
+import Button from './Button';
 
 import { endTurn, getGuessesLeft, getTurnsLeft } from '../stores/turns-store';
 import { getPlayerId } from '../stores/player-id-store';

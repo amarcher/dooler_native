@@ -9,8 +9,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "classnames": "^2.2.5",
-    "find-parent": "^2.0.2",
     "prop-types": "^15.6.1",
     "react": "16.3.0-alpha.1",
     "react-native": "0.54.0",

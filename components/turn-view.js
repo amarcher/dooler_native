@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
+import Text from './Text';
 
 import { getTurnsLeft } from '../stores/turns-store';
 import { getAgentsLeft } from '../stores/game-store';
@@ -37,14 +38,14 @@ export class BaseTurnView extends Component {
 		}
 
 		return Array(turnsLeft).fill().map((_el, index) => (
-			<Image source={require('../img/mushroom.svg')} style={styles.turn} key={index} /> // eslint-disable-line react/no-array-index-key
+			<Image source={require('../img/mushroom.png')} style={styles.turn} key={index} /> // eslint-disable-line react/no-array-index-key
 		));
 	}
 
 	render() {
 		return (
-			<View className="turn-view">
-				<View className="turns-left">
+			<View style={{ flexGrow: 0 }}>
+				<View style={{ flexDirection: 'row' }}>
 					{this.renderTurns()}
 				</View>
 				{this.maybeRenderWin()}

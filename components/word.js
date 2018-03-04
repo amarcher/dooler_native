@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { Button } from 'react-native';
+import Button from './Button';
 
 import { isAgent, isAssasin, isGuessed } from '../rules/words';
 import { makeGuess } from '../stores/game-store';
@@ -25,6 +24,54 @@ const defaultProps = {
 	playerId: '',
 	guessedThisTurn: false,
 };
+
+const styles = {
+	nonAgentPlayerOne: {
+		backgroundColor: '#721932',
+	},
+	nonAgentPlayerTwo: {
+		backgroundColor: '#721932',
+	},
+	nonAgentBothPlayers: {
+		backgroundColor: '#721932',
+	},
+	agent: {
+		backgroundColor: '#029192',
+	},
+	assasin: {
+		backgroundColor: '#fff',
+		color: 'black',
+	},
+	myAgent: {
+		color: '#029192',
+	},
+	myNonAgent: {
+		color: 'gray',
+	},
+	myAssasin: {
+		color: '#DD1919',
+	},
+	guessedThisTurn: {
+		shadowColor: '#B82',
+		shadowRadius: 10,
+	},
+};
+
+function getStyles({ revealed, role, guessedThisTurn }) {
+	const rules = {
+		agent: isAgent(revealed),
+		nonAgentPlayerOne: revealed.playerOne === 'NON_AGENT' && !revealed.playerTwo,
+		nonAgentPlayerTwo: revealed.playerTwo === 'NON_AGENT' && !revealed.playerOne,
+		nonAgentBothPlayers: revealed.playerOne === 'NON_AGENT' && revealed.playerTwo === 'NON_AGENT',
+		assasin: isAssasin(revealed),
+		myAgent: role === 'AGENT',
+		myNonAgent: role === 'NON_AGENT',
+		myAssasin: role === 'ASSASIN',
+		guessedThisTurn,
+	};
+
+	return Object.assign({ flex: 1, alignSelf: 'stretch', margin: 1 }, ...Object.keys(rules).filter(key => rules[key]).map(key => styles[key]));
+}
 
 export class BaseWord extends Component {
 	constructor(props) {
@@ -50,25 +97,16 @@ export class BaseWord extends Component {
 			word, revealed, role, playerId, guessedThisTurn,
 		} = this.props;
 
-		const className = classNames('word', {
-			agent: isAgent(revealed),
-			'non-agent-player-one': revealed.playerOne === 'NON_AGENT',
-			'non-agent-player-two': revealed.playerTwo === 'NON_AGENT',
-			assasin: isAssasin(revealed),
-			'my-agent': role === 'AGENT',
-			'my-non-agent': role === 'NON_AGENT',
-			'my-assasin': role === 'ASSASIN',
-			guessed: isGuessed(revealed, playerId),
-			neutral: !role,
-			'guessed-this-turn': guessedThisTurn,
-		});
+		const style = getStyles({ revealed, role, guessedThisTurn });
 
 		return (
 			<Button
-				className={className}
 				onPress={this.onPress}
 				disabled={!role || isGuessed(revealed, playerId)}
+				style={style}
 				title={word}
+				numberOfLines={1}
+				adjustsFontSizeToFit
 			/>
 		);
 	}

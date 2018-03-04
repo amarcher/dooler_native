@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, Text, Button } from 'react-native';
+import { View } from 'react-native';
+import Button from './Button';
+import Text from './Text';
 
 import { changePlayerId, getPlayerId } from '../stores/player-id-store';
 
@@ -26,6 +28,7 @@ export class BasePlayerSelect extends Component {
 
 		return (
 			<Button
+				style={{ marginRight: 12 }}
 				key={`player${playerId}`}
 				title={text}
 				onPress={() => this.props.changePlayerId({ playerId })}
@@ -35,11 +38,11 @@ export class BasePlayerSelect extends Component {
 
 	render() {
 		const buttons = this.props.playerId ? this.renderButton(PLAYERS.NEUTRAL) : [PLAYERS.ONE, PLAYERS.TWO].map(this.renderButton, this);
-		const text = this.props.playerId ? `You are player ${this.props.playerId}` : 'Choose a player';
+		const text = this.props.playerId && `You are player ${this.props.playerId}`;
 
 		return (
-			<View className="player-select">
-				<Text className="player-display">{text}</Text>
+			<View style={{ flexDirection: 'row', flexShrink: 1 }}>
+				<Text style={{ marginRight: 12 }}>{text}</Text>
 				{buttons}
 			</View>
 		);

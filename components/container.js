@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import ClueView from './clue-view';
 import PlayerView from './player-view';
@@ -24,6 +24,13 @@ const defaultProps = {
 	game: {},
 };
 
+const styles = StyleSheet.create({
+	container: {
+		backgroundColor: 'black',
+		flex: 1,
+	},
+});
+
 export class BaseContainer extends Component {
 	componentDidMount() {
 		const { gameId } = this.props;
@@ -39,13 +46,19 @@ export class BaseContainer extends Component {
 		}
 
 		return (
-			<View>
-				<View>
+			<View style={styles.container}>
+				<View style={{
+					flexGrow: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 6, marginBottom: 6,
+				}}
+				>
 					<TurnView />
 					<ClueView />
 				</View>
 				<GameView game={game} />
-				<View>
+				<View style={{
+					flexGrow: 0, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 6, marginBottom: 6,
+				}}
+				>
 					<PlayerSelect />
 					<EndTurn />
 					<PlayerView />

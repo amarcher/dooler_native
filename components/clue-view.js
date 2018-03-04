@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, TextInput, Button } from 'react-native';
+import { View } from 'react-native';
+import Text from './Text';
+import TextInput from './TextInput';
+import Button from './Button';
 
 import { getClue, getGuessesLeft, getTurnsLeft, giveClue } from '../stores/turns-store';
 import { startNew } from '../stores/game-store';
@@ -32,7 +35,7 @@ export class BaseClueView extends Component {
 
 		this.state = {
 			word: '',
-			number: 1,
+			number: '',
 		};
 
 		this.onWordChange = this.onWordChange.bind(this);
@@ -40,13 +43,11 @@ export class BaseClueView extends Component {
 		this.onSubmitClue = this.onSubmitClue.bind(this);
 	}
 
-	onWordChange(e) {
-		const word = e.target.value;
+	onWordChange(word) {
 		this.setState(() => ({ word: word && word.replace(/\s/g, '').toUpperCase() }));
 	}
 
-	onNumberChange(e) {
-		const number = e.target.value;
+	onNumberChange(number) {
 		this.setState(() => ({ number }));
 	}
 
@@ -56,6 +57,7 @@ export class BaseClueView extends Component {
 
 		if (word) {
 			this.props.giveClue({ word, number });
+			this.setState(() => ({ word: '', number: '' }));
 		}
 	}
 
@@ -64,21 +66,16 @@ export class BaseClueView extends Component {
 			return null;
 		}
 
-		const clueWord = this.props.clue && this.props.clue.word && (
-			<View className="clue-for-guesser">
-				<span className="clue-for-guesser-word"><span className="light">Clue:</span>&nbsp;{this.props.clue.word}</span>
-				<span className="clue-for-guesser-number">
-					<span className="light">Guesses:</span>&nbsp;
-					<span className="clue-for-guesser-guesses-left">
-						{this.props.guessesLeft} / {this.props.clue.number}
-					</span>
-				</span>
-			</View>
-		);
-
-		return (
-			<View className="clue">
-				{clueWord}
+		return this.props.clue && this.props.clue.word && (
+			<View style={{ flexDirection: 'row' }}>
+				<Text>
+					<Text style={{ color: '#898989' }}>Clue: </Text>
+					{this.props.clue.word}
+				</Text>
+				<Text style={{ marginLeft: 12 }}>
+					<Text style={{ color: '#898989' }}>Guesses: </Text>
+					{this.props.guessesLeft} / {this.props.clue.number}
+				</Text>
 			</View>
 		);
 	}
@@ -89,9 +86,9 @@ export class BaseClueView extends Component {
 		}
 
 		return (
-			<View>
-				<TextInput className="word-input" placeholder="WORD" value={this.state.word} onChange={this.onWordChange} />
-				<TextInput className="number-input" pattern="[0-9]*" value={this.state.number} onChange={this.onNumberChange} />
+			<View style={{ flexDirection: 'row', alignItems: 'center', flexGrow: 0 }}>
+				<TextInput placeholder="WORD" value={this.state.word} onChangeText={this.onWordChange} style={{ width: 250, marginRight: 3 }} />
+				<TextInput placeholder="#" keyboardType="numeric" maxLength={2} value={`${this.state.number}`} onChangeText={this.onNumberChange} style={{ width: 50, marginRight: 3 }} />
 				<Button
 					disabled={!this.state.word}
 					onPress={this.onSubmitClue}
@@ -112,7 +109,7 @@ export class BaseClueView extends Component {
 
 	render() {
 		return (
-			<View className="clue-view">
+			<View>
 				{this.maybeRenderStartNewGame()}
 				{this.maybeRenderClue()}
 				{this.maybeRenderInput()}
