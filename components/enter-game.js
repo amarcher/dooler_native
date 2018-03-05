@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { KeyboardAvoidingView } from 'react-native';
 import Button from './Button';
 import Text from './Text';
 import TextInput from './TextInput';
@@ -58,7 +58,7 @@ export default class EnterGame extends Component {
 		const { gameId } = this.state;
 
 		return (
-			<View style={styles.container}>
+			<KeyboardAvoidingView style={styles.container} behavior="padding">
 				<Text style={styles.title}>Dooler</Text>
 				<TextInput
 					placeholder="Enter Game Code"
@@ -73,7 +73,7 @@ export default class EnterGame extends Component {
 					onPress={this.onSubmit}
 					title="Enter"
 				/>
-			</View>
+			</KeyboardAvoidingView>
 		);
 	}
 }
