@@ -29,7 +29,7 @@ export class BasePlayerView extends Component {
 
 	render() {
 		return (
-			<View>
+			<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
 				{this.renderPlayers()}
 			</View>
 		);

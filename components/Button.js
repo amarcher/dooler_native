@@ -22,25 +22,30 @@ const defaultTouchableHighlightStyle = {
 	paddingLeft: 12,
 	paddingRight: 12,
 	backgroundColor: '#1e1e1e',
-	display: 'flex',
 	justifyContent: 'center',
 	alignItems: 'center',
+	flexDirection: 'column',
+};
+
+const defaultTextStyle = {
+	lineHeight: 0,
 };
 
 const VALID_TEXT_KEYS = new Set(['color']);
 
-const getTextStyle = style => (
-	Object.keys(style).filter(key => VALID_TEXT_KEYS.has(key)).reduce((memo, key) => ({
+const getTextStyle = style => ({
+	...defaultTextStyle,
+	...Object.keys(style).filter(key => VALID_TEXT_KEYS.has(key)).reduce((memo, key) => ({
 		...memo,
-		[key]: style[key],
-	}), {})
-);
+		...{ [key]: style[key] },
+	}), {}),
+});
 
 const getTouchableHighlightStyle = style => ({
 	...defaultTouchableHighlightStyle,
 	...Object.keys(style).filter(key => !VALID_TEXT_KEYS.has(key)).reduce((memo, key) => ({
 		...memo,
-		[key]: style[key],
+		...{ [key]: style[key] },
 	}), {}),
 });
 
@@ -55,7 +60,14 @@ export default class Button extends Component {
 
 		return (
 			<TouchableHighlight style={touchableHighlightStyle} {...props}>
-				<Text numberOfLines={numberOfLines} adjustsFontSizeToFit={adjustsFontSizeToFit} style={textStyle}>{title}</Text>
+				<Text
+					numberOfLines={numberOfLines}
+					adjustsFontSizeToFit={adjustsFontSizeToFit}
+					allowFontScaling={adjustsFontSizeToFit}
+					style={textStyle}
+				>
+					{title}
+				</Text>
 			</TouchableHighlight>
 		);
 	}

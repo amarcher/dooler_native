@@ -9,6 +9,8 @@ import GameView from './game-view';
 import TurnView from './turn-view';
 import PlayerSelect from './player-select';
 import EndTurn from './end-turn';
+import Button from './Button';
+
 import { enterGame, getGame } from '../stores/game-store';
 
 const propTypes = {
@@ -18,6 +20,9 @@ const propTypes = {
 		gameId: PropTypes.string,
 		words: PropTypes.object,
 	}),
+	navigation: PropTypes.shape({
+		navigate: PropTypes.func.isRequired,
+	}).isRequired,
 };
 
 const defaultProps = {
@@ -32,10 +37,19 @@ const styles = StyleSheet.create({
 });
 
 export class BaseContainer extends Component {
+	constructor(props) {
+		super(props);
+
+		this.onBackPress = this.onBackPress.bind(this);
+	}
+
 	componentDidMount() {
 		const { gameId } = this.props;
 
 		this.props.enterGame({ gameId });
+	}
+	onBackPress() {
+		this.props.navigation.navigate('Home');
 	}
 
 	render() {
@@ -51,12 +65,13 @@ export class BaseContainer extends Component {
 					flexGrow: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 6, marginBottom: 6,
 				}}
 				>
+					<Button title="<" onPress={this.onBackPress} />
 					<TurnView />
 					<ClueView />
 				</View>
 				<GameView game={game} />
 				<View style={{
-					flexGrow: 0, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 6, marginBottom: 6,
+					flexGrow: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 6, marginBottom: 6,
 				}}
 				>
 					<PlayerSelect />

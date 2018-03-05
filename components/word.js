@@ -70,7 +70,12 @@ function getStyles({ revealed, role, guessedThisTurn }) {
 		guessedThisTurn,
 	};
 
-	return Object.assign({ flex: 1, alignSelf: 'stretch', margin: 1 }, ...Object.keys(rules).filter(key => rules[key]).map(key => styles[key]));
+	return Object.assign(
+		{
+			flex: 1, flexDirection: 'row', alignSelf: 'stretch', margin: 1,
+		},
+		...Object.keys(rules).filter(key => rules[key]).map(key => styles[key]),
+	);
 }
 
 export class BaseWord extends Component {
