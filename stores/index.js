@@ -3,8 +3,8 @@ import thunkMiddleware from 'redux-thunk';
 import { createReduxBoundAddListener, createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 
 import gameReducer, { enterGame, getGameId, addOrReplaceGame, updateWordInGame } from './game-store';
-import playersReducer, { incrementPlayerCount, decrementPlayerCount } from './players-store';
-import playerIdReducer, { getPlayerId, setPlayerId, changePlayerId, getPlayerName } from './player-id-store';
+import playersReducer, { incrementPlayerCount, decrementPlayerCount, clearPlayers } from './players-store';
+import playerIdReducer, { setPlayerId, getPlayerName } from './player-id-store';
 import turnsReducer, { updateTurnsLeft, updateClue, updateGuessesLeft } from './turns-store';
 import navReducer from './nav-store';
 import { addCallbacks as addWsCallbacks } from '../utils/ws';
@@ -53,14 +53,10 @@ export function onWsEvent(data) {
 
 export function onWsConnected() {
 	const state = store.getState();
-	const playerId = getPlayerId(state);
 	const gameId = getGameId(state);
 	const playerName = getPlayerName(state);
 
-	if (playerId) {
-		return store.dispatch(changePlayerId({ playerId, playerName }));
-	}
-
+	store.dispatch(clearPlayers());
 	return store.dispatch(enterGame({ gameId, playerName }));
 }
 
