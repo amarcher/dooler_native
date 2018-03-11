@@ -4,46 +4,84 @@ import { connect } from 'react-redux';
 import { View } from 'react-native';
 import Button from './Button';
 import Text from './Text';
+import TextInput from './TextInput';
 
-import { changePlayerId, getPlayerId } from '../stores/player-id-store';
-
-const PLAYERS = {
-	ONE: 'one',
-	TWO: 'two',
-	NEUTRAL: '',
-};
+import { changePlayerId, getPlayerId, getPlayerName, setPlayerName } from '../stores/player-id-store';
 
 const propTypes = {
 	changePlayerId: PropTypes.func.isRequired,
+	setPlayerName: PropTypes.func.isRequired,
 	playerId: PropTypes.string,
+	playerName: PropTypes.string,
 };
 
 const defaultProps = {
-	playerId: PLAYERS.NEUTRAL,
+	playerId: '',
+	playerName: '',
 };
 
 export class BasePlayerSelect extends Component {
-	renderButton(playerId) {
-		const text = playerId ? `Be player ${playerId}` : 'Be neutral';
+	constructor(props) {
+		super(props);
 
+		this.state = {
+			playerName: props.playerName,
+		};
+
+		this.onChangePlayer = this.onChangePlayer.bind(this);
+		this.onChangePlayerName = this.onChangePlayerName.bind(this);
+		this.onSubmit = this.onSubmit.bind(this);
+	}
+
+	onChangePlayer() {
+		this.props.setPlayerName({ playerName: '' });
+		this.props.changePlayerId({ playerId: '' });
+	}
+
+	onChangePlayerName(name) {
+		this.setState(() => ({ playerName: name && name.replace(/\s/g, '').toUpperCase() }));
+	}
+
+	onSubmit() {
+		const { playerId } = this.props;
+		const { playerName } = this.state;
+
+		if (playerName) this.props.setPlayerName({ playerName });
+		this.props.changePlayerId({ playerId });
+	}
+
+	renderBeNeutralButton() {
 		return (
 			<Button
 				style={{ marginRight: 12 }}
-				key={`player${playerId}`}
-				title={text}
-				onPress={() => this.props.changePlayerId({ playerId })}
+				title="Be neutral"
+				onPress={this.onChangePlayer}
+			/>
+		);
+	}
+
+	renderEnterGameButton() {
+		return (
+			<TextInput
+				placeholder="Your Name"
+				placeholderTextColor="gray"
+				value={this.state.playerName}
+				onChangeText={this.onChangePlayerName}
+				returnKeyType="go"
+				enablesReturnKeyAutomatically
+				onSubmitEditing={this.onSubmit}
 			/>
 		);
 	}
 
 	render() {
-		const buttons = this.props.playerId ? this.renderButton(PLAYERS.NEUTRAL) : [PLAYERS.ONE, PLAYERS.TWO].map(this.renderButton, this);
-		const text = this.props.playerId && `You are player ${this.props.playerId}`;
+		const button = this.props.playerId ? this.renderBeNeutralButton() : this.renderEnterGameButton();
+		const text = this.props.playerId ? `You are ${this.props.playerName}` : 'You are neutral';
 
 		return (
 			<View style={{ flexDirection: 'row', flexShrink: 1 }}>
 				<Text style={{ marginRight: 12 }}>{text}</Text>
-				{buttons}
+				{button}
 			</View>
 		);
 	}
@@ -52,11 +90,12 @@ export class BasePlayerSelect extends Component {
 BasePlayerSelect.propTypes = propTypes;
 BasePlayerSelect.defaultProps = defaultProps;
 
-const mapDispatchToProps = { changePlayerId };
+const mapDispatchToProps = { setPlayerName, changePlayerId };
 
 function mapStateToProps(state) {
 	return {
 		playerId: getPlayerId(state),
+		playerName: getPlayerName(state),
 	};
 }
 

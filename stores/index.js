@@ -3,10 +3,11 @@ import thunkMiddleware from 'redux-thunk';
 import { createReduxBoundAddListener, createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 
 import gameReducer, { enterGame, getGameId, addOrReplaceGame, updateWordInGame } from './game-store';
-import playersReducer, { updatePlayerCount } from './players-store';
-import playerIdReducer, { getPlayerId, setPlayerId, changePlayerId } from './player-id-store';
+import playersReducer, { incrementPlayerCount, decrementPlayerCount } from './players-store';
+import playerIdReducer, { getPlayerId, setPlayerId, changePlayerId, getPlayerName } from './player-id-store';
 import turnsReducer, { updateTurnsLeft, updateClue, updateGuessesLeft } from './turns-store';
 import navReducer from './nav-store';
+import { addCallbacks as addWsCallbacks } from '../utils/ws';
 
 const middleware = createReactNavigationReduxMiddleware(
 	'root',
@@ -26,7 +27,7 @@ export const store = createStore(
 	applyMiddleware(thunkMiddleware, middleware),
 );
 
-export function wsEvent(data) {
+export function onWsEvent(data) {
 	const { type, payload } = data;
 
 	switch (type) {
@@ -36,8 +37,9 @@ export function wsEvent(data) {
 		store.dispatch(updateWordInGame(payload));
 		return store.dispatch(updateGuessesLeft(payload));
 	case 'playerLeft':
+		return store.dispatch(decrementPlayerCount(payload));
 	case 'playerJoined':
-		return store.dispatch(updatePlayerCount(payload));
+		return store.dispatch(incrementPlayerCount(payload));
 	case 'playerChanged':
 		return store.dispatch(setPlayerId(payload));
 	case 'turns':
@@ -49,16 +51,19 @@ export function wsEvent(data) {
 	}
 }
 
-export function wsConnected() {
+export function onWsConnected() {
 	const state = store.getState();
 	const playerId = getPlayerId(state);
 	const gameId = getGameId(state);
+	const playerName = getPlayerName(state);
 
 	if (playerId) {
-		return store.dispatch(changePlayerId({ playerId }));
+		return store.dispatch(changePlayerId({ playerId, playerName }));
 	}
 
-	return store.dispatch(enterGame({ gameId }));
+	return store.dispatch(enterGame({ gameId, playerName }));
 }
+
+addWsCallbacks({ onWsEvent, onWsConnected });
 
 export default store;
