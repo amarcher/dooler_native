@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
-
 import ClueView from './clue-view';
 import PlayerView from './player-view';
 import GameView from './game-view';
@@ -11,10 +10,12 @@ import PlayerSelect from './player-select';
 import EndTurn from './end-turn';
 import Button from './Button';
 
+import { getPlayerName } from '../stores/player-id-store';
 import { enterGame, getGame } from '../stores/game-store';
 
 const propTypes = {
 	enterGame: PropTypes.func.isRequired,
+	playerName: PropTypes.string,
 	gameId: PropTypes.string.isRequired,
 	game: PropTypes.shape({
 		gameId: PropTypes.string,
@@ -27,6 +28,7 @@ const propTypes = {
 
 const defaultProps = {
 	game: {},
+	playerName: '',
 };
 
 const styles = StyleSheet.create({
@@ -44,9 +46,9 @@ export class BaseContainer extends Component {
 	}
 
 	componentDidMount() {
-		const { gameId } = this.props;
+		const { gameId, playerName } = this.props;
 
-		this.props.enterGame({ gameId });
+		this.props.enterGame({ gameId, playerName });
 	}
 	onBackPress() {
 		this.props.navigation.navigate('Home');
@@ -90,6 +92,7 @@ function mapStateToProps(state, ownProps) {
 	const { gameId } = ownProps.navigation.state.params;
 
 	return {
+		playerName: getPlayerName(state),
 		game: getGame(state),
 		gameId,
 	};
