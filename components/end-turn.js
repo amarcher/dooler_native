@@ -24,7 +24,7 @@ export class BaseEndTurn extends Component {
 		if (!this.props.playerId || this.props.guessesLeft === 0 || this.props.turnsLeft < 1) return null;
 
 		return (
-			<Button onPress={this.props.endTurn} title="End Turn" />
+			<Button style={{ marginLeft: 0 }} onPress={this.props.endTurn} title="End Turn" />
 		);
 	}
 }

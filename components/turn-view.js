@@ -44,8 +44,8 @@ export class BaseTurnView extends Component {
 
 	render() {
 		return (
-			<View style={{ flexGrow: 0 }}>
-				<View style={{ flexDirection: 'row' }}>
+			<View style={{ flexGrow: 1, marginLeft: 6 }}>
+				<View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
 					{this.renderTurns()}
 				</View>
 				{this.maybeRenderWin()}
