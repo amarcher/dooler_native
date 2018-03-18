@@ -27,11 +27,9 @@ const defaultTouchableHighlightStyle = {
 	flexDirection: 'column',
 };
 
-const defaultTextStyle = {
-	lineHeight: 0,
-};
+const defaultTextStyle = {};
 
-const VALID_TEXT_KEYS = new Set(['color']);
+const VALID_TEXT_KEYS = new Set(['color', 'lineHeight']);
 
 function getTextStyle(style) {
 	const validTextStyles = Object.keys(style).filter(key => VALID_TEXT_KEYS.has(key));

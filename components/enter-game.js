@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { KeyboardAvoidingView } from 'react-native';
 import { setPlayerName } from '../stores/player-id-store';
-import { close as closeWebSocket } from '../utils/ws';
 import Button from './Button';
 import Text from './Text';
 import TextInput from './TextInput';
@@ -47,10 +46,6 @@ export class BaseEnterGame extends Component {
 		this.onSubmit = this.onSubmit.bind(this);
 		this.onChangeGameId = this.onChangeGameId.bind(this);
 		this.onChangeName = this.onChangeName.bind(this);
-	}
-
-	onComponentDidMount() {
-		closeWebSocket();
 	}
 
 	onChangeGameId(gameId) {

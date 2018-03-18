@@ -10,6 +10,7 @@ import PlayerSelect from './player-select';
 import EndTurn from './end-turn';
 import Button from './Button';
 
+import { close as closeWebSocket } from '../utils/ws';
 import { getPlayerName } from '../stores/player-id-store';
 import { enterGame, getGame } from '../stores/game-store';
 import { addToken } from '../stores/token-store';
@@ -56,6 +57,7 @@ export class BaseContainer extends Component {
 	}
 
 	onBackPress() {
+		closeWebSocket();
 		this.props.navigation.navigate('Home');
 	}
 

@@ -95,7 +95,14 @@ export function start() {
 
 export function close() {
 	if (ws && ws.readyState === READY_STATES.OPEN) {
+		ws.removeEventListener('close', onClose);
+
 		ws.close();
+
+		ws.removeEventListener('message', onMessage);
+		ws.removeEventListener('error', onError);
+
+		ws = undefined;
 	}
 }
 

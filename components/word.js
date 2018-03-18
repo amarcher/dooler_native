@@ -54,6 +54,7 @@ const styles = {
 	guessedThisTurn: {
 		shadowColor: '#B82',
 		shadowRadius: 10,
+		shadowOpacity: 1,
 	},
 };
 
@@ -72,7 +73,7 @@ function getStyles({ revealed, role, guessedThisTurn }) {
 
 	return Object.assign(
 		{
-			flex: 1, flexDirection: 'row', alignSelf: 'stretch', margin: 1,
+			flex: 1, flexDirection: 'row', alignSelf: 'stretch', margin: 1, lineHeight: 0,
 		},
 		...Object.keys(rules).filter(key => rules[key]).map(key => styles[key]),
 	);
