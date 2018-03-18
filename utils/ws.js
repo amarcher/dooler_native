@@ -93,6 +93,12 @@ export function start() {
 	return connectingPromise;
 }
 
+export function close() {
+	if (ws && ws.readyState === READY_STATES.OPEN) {
+		ws.close();
+	}
+}
+
 export function addCallbacks({ onWsEvent, onWsConnected }) {
 	wsEvent = onWsEvent;
 	wsConnected = onWsConnected;

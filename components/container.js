@@ -69,7 +69,7 @@ export class BaseContainer extends Component {
 		return (
 			<View style={styles.container}>
 				<View style={{
-					flexGrow: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 6, marginBottom: 6,
+					flexBasis: 40, flexShrink: 0, flexGrow: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 6, marginBottom: 6,
 				}}
 				>
 					<Button title="<" onPress={this.onBackPress} />
