@@ -33,21 +33,33 @@ const defaultTextStyle = {
 
 const VALID_TEXT_KEYS = new Set(['color']);
 
-const getTextStyle = style => ({
-	...defaultTextStyle,
-	...Object.keys(style).filter(key => VALID_TEXT_KEYS.has(key)).reduce((memo, key) => ({
-		...memo,
-		...{ [key]: style[key] },
-	}), {}),
-});
+function getTextStyle(style) {
+	const validTextStyles = Object.keys(style).filter(key => VALID_TEXT_KEYS.has(key));
 
-const getTouchableHighlightStyle = style => ({
-	...defaultTouchableHighlightStyle,
-	...Object.keys(style).filter(key => !VALID_TEXT_KEYS.has(key)).reduce((memo, key) => ({
-		...memo,
-		...{ [key]: style[key] },
-	}), {}),
-});
+	if (!validTextStyles.length) return defaultTextStyle;
+
+	return {
+		...defaultTextStyle,
+		...validTextStyles.reduce((memo, key) => ({
+			...memo,
+			[key]: style[key],
+		}), {}),
+	};
+}
+
+function getTouchableHighlightStyle(style) {
+	const validTouchableHighlightStyles = Object.keys(style).filter(key => !VALID_TEXT_KEYS.has(key));
+
+	if (!validTouchableHighlightStyles.length) return defaultTouchableHighlightStyle;
+
+	return {
+		...defaultTouchableHighlightStyle,
+		...validTouchableHighlightStyles.reduce((memo, key) => ({
+			...memo,
+			[key]: style[key],
+		}), {}),
+	};
+}
 
 export default class Button extends Component {
 	render() {
@@ -59,7 +71,7 @@ export default class Button extends Component {
 		const touchableHighlightStyle = getTouchableHighlightStyle(style);
 
 		return (
-			<TouchableHighlight style={touchableHighlightStyle} {...props}>
+			<TouchableHighlight style={touchableHighlightStyle} activeOpacity={0.8} {...props}>
 				<Text
 					numberOfLines={numberOfLines}
 					adjustsFontSizeToFit={adjustsFontSizeToFit}

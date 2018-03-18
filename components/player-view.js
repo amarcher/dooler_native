@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image } from 'react-native';
 import Text from './Text';
 
 import { getConnectedPlayerNames } from '../stores/players-store';
@@ -10,7 +10,7 @@ const propTypes = {
 	players: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-const styles = StyleSheet.create({
+const styles = {
 	player: {
 		height: 24,
 		width: 24,
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		marginLeft: 6,
 	},
-});
+};
 
 export class BasePlayerView extends Component {
 	renderPlayers() {
@@ -33,9 +33,9 @@ export class BasePlayerView extends Component {
 		};
 
 		return this.props.players.map((player, index) => (
-			<View style={styles.playerContainer}>
-				<Image // eslint-disable-next-line react/no-array-index-key
-					key={index}
+			// eslint-disable-next-line react/no-array-index-key
+			<View style={styles.playerContainer} key={index}>
+				<Image
 					source={require('../img/businessman.png')}
 					style={styles.player}
 				/>

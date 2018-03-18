@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import ClueView from './clue-view';
 import PlayerView from './player-view';
 import GameView from './game-view';
@@ -12,9 +12,12 @@ import Button from './Button';
 
 import { getPlayerName } from '../stores/player-id-store';
 import { enterGame, getGame } from '../stores/game-store';
+import { addToken } from '../stores/token-store';
+import { enableNotifications } from '../utils/notifications';
 
 const propTypes = {
 	enterGame: PropTypes.func.isRequired,
+	addToken: PropTypes.func.isRequired,
 	playerName: PropTypes.string,
 	gameId: PropTypes.string.isRequired,
 	game: PropTypes.shape({
@@ -31,12 +34,12 @@ const defaultProps = {
 	playerName: '',
 };
 
-const styles = StyleSheet.create({
+const styles = {
 	container: {
 		backgroundColor: 'black',
 		flex: 1,
 	},
-});
+};
 
 export class BaseContainer extends Component {
 	constructor(props) {
@@ -48,8 +51,10 @@ export class BaseContainer extends Component {
 	componentDidMount() {
 		const { gameId, playerName } = this.props;
 
+		enableNotifications({ setToken: this.props.addToken });
 		this.props.enterGame({ gameId, playerName });
 	}
+
 	onBackPress() {
 		this.props.navigation.navigate('Home');
 	}
@@ -100,6 +105,7 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = {
 	enterGame,
+	addToken,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseContainer);

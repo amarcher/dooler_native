@@ -8,6 +8,9 @@ const NavigationStack = StackNavigator({
 }, {
 	header: { visible: false },
 	headerMode: 'none',
+	cardStyle: {
+		backgroundColor: 'black',
+	},
 });
 
 export default NavigationStack;

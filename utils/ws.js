@@ -1,5 +1,7 @@
-let wsEvent = () => {};
-let wsConnected = () => {};
+import noop from './helpers';
+
+let wsEvent = noop;
+let wsConnected = noop;
 
 let connectingPromise;
 let ws;

@@ -6,6 +6,7 @@ import gameReducer, { enterGame, getGameId, addOrReplaceGame, updateWordInGame }
 import playersReducer, { incrementPlayerCount, decrementPlayerCount, clearPlayers } from './players-store';
 import playerIdReducer, { setPlayerId, getPlayerName } from './player-id-store';
 import turnsReducer, { updateTurnsLeft, updateClue, updateGuessesLeft } from './turns-store';
+import tokenReducer from './token-store';
 import navReducer from './nav-store';
 import { addCallbacks as addWsCallbacks } from '../utils/ws';
 
@@ -22,6 +23,7 @@ export const store = createStore(
 		turns: turnsReducer,
 		players: playersReducer,
 		playerId: playerIdReducer,
+		token: tokenReducer,
 		nav: navReducer,
 	}),
 	applyMiddleware(thunkMiddleware, middleware),
