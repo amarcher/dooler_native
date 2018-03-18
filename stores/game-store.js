@@ -1,6 +1,7 @@
 import { createAction, createReducer } from 'redux-act';
 import { fetchGame, guess, startNewGame } from '../fetchers';
 import { getPlayerId } from './player-id-store';
+import { getToken } from './token-store';
 import { updateTurnsLeft } from './turns-store';
 import { TOTAL_AGENTS } from '../rules/game';
 import { isAgent } from '../rules/words';
@@ -58,11 +59,12 @@ export const getAgentsLeft = state => (
 
 // Thunks
 export function enterGame({ gameId, playerName }) {
-	return (dispatch) => {
+	return (dispatch, getState) => {
 		// replace the game with an dummy game (just an id)
 		// until we have a full game object from web socket
 		dispatch(addOrReplaceGame({ gameId }));
-		return fetchGame({ gameId, playerName });
+		const token = getToken(getState());
+		return fetchGame({ gameId, playerName, token });
 	};
 }
 

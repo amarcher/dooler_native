@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image } from 'react-native';
 import Text from './Text';
 
 import { getTurnsLeft } from '../stores/turns-store';
@@ -12,12 +12,12 @@ const propTypes = {
 	turnsLeft: PropTypes.number.isRequired,
 };
 
-const styles = StyleSheet.create({
+const styles = {
 	turn: {
 		height: 24,
 		width: 24,
 	},
-});
+};
 
 export class BaseTurnView extends Component {
 	maybeRenderWin() {

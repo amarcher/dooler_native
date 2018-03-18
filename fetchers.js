@@ -1,10 +1,10 @@
 import { send } from './utils/ws';
 
-export function fetchGame({ gameId, playerName } = {}) {
+export function fetchGame({ gameId, playerName, token } = {}) {
 	send({
 		type: 'words',
 		gameId,
-		payload: { playerName },
+		payload: { playerName, token },
 	});
 }
 
@@ -16,11 +16,13 @@ export function guess({ gameId, word, player } = {}) {
 	});
 }
 
-export function changePlayer({ gameId, player, playerName }) {
+export function changePlayer({
+	gameId, player, playerName, token,
+}) {
 	send({
 		gameId,
 		type: 'changePlayer',
-		payload: { player, playerName },
+		payload: { player, playerName, token },
 	});
 }
 

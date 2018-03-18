@@ -1,6 +1,7 @@
 import { createAction, createReducer } from 'redux-act';
 import { changePlayer } from '../fetchers';
 import { getGameId } from './game-store';
+import { getToken } from './token-store';
 
 export const setPlayerId = createAction('Set player id');
 export const setPlayerName = createAction('Set player name');
@@ -24,6 +25,7 @@ export function changePlayerId({ playerId }) {
 			gameId: getGameId(state),
 			player: playerId,
 			playerName: getPlayerName(state),
+			token: getToken(state),
 		});
 	};
 }
