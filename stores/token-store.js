@@ -4,8 +4,6 @@ export const addToken = createAction('Add a token');
 
 const reducer = createReducer({
 	[addToken]: (state, { token, os }) => {
-		console.log('addToken', token);
-
 		return {
 			...state,
 			token,
