@@ -16,3 +16,13 @@ npm install -g react-native-cli
 ```bash
 react-native run-ios
 ```
+
+## Preparing a build for TestFlight:
+
+1. In Xcode, increment the build number by clicking on the Dooler project and on the Dooler target.
+2. Create an archive in Xcode *Product* > *Archive*
+3. Select the archive in the resulting modal and click *Upload to iTunes Connect*
+4. Agree to all the defaults (allow automatic code signing)
+5. Go to https://itunesconnect.apple.com click Apps > TestFlight
+6. Wait for the build to finish processing, then click on *Missing Compliance Export* and confirm nothing has changed
+7. Click *Start Testing* -- this will send a notification to all our TestFlight testers that a new version is available for download.
