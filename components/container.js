@@ -52,7 +52,7 @@ export class BaseContainer extends Component {
 	componentDidMount() {
 		const { gameId, playerName } = this.props;
 
-		enableNotifications({ setToken: this.props.addToken });
+		enableNotifications({ setToken: this.props.addToken, navigation: this.props.navigation });
 		this.props.enterGame({ gameId, playerName });
 	}
 
