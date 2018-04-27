@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import { addNavigationHelpers, NavigationActions } from 'react-navigation';
+import SplashScreen from 'react-native-splash-screen';
 
 import { addListener } from './stores';
 import NavigationStack from './NavigationStack';
@@ -15,6 +16,7 @@ class BaseAppNavigation extends Component {
 	}
 
 	componentDidMount() {
+		SplashScreen.hide();
 		BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
 	}
 
