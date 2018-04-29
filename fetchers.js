@@ -1,4 +1,7 @@
 import { send } from './utils/ws';
+import { graphRequest } from './utils/fb';
+
+/* Websocket Fetchers */
 
 export function fetchGame({ gameId, playerName, token } = {}) {
 	send({
@@ -52,4 +55,11 @@ export function startNewGame({
 		type: 'startNewGame',
 		payload: {},
 	});
+}
+
+
+/* Facebook Graph Request Fetchers */
+
+export function fetchMe() {
+	return graphRequest('/me');
 }
