@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createReduxBoundAddListener, createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 
-import gameReducer, { enterGame, getGameId, addOrReplaceGame, updateWordInGame } from './game-store';
+import gameReducer, { enterGame, getActiveGameId, addOrReplaceGame, updateWordInGame } from './game-store';
 import playersReducer, { incrementPlayerCount, decrementPlayerCount, clearPlayers } from './players-store';
 import playerIdReducer, { setPlayerId, getPlayerName } from './player-id-store';
 import turnsReducer, { updateTurnsLeft, updateClue, updateGuessesLeft } from './turns-store';
@@ -55,7 +55,7 @@ export function onWsEvent(data) {
 
 export function onWsConnected() {
 	const state = store.getState();
-	const gameId = getGameId(state);
+	const gameId = getActiveGameId(state);
 	const playerName = getPlayerName(state);
 
 	store.dispatch(clearPlayers());

@@ -1,7 +1,7 @@
 import { createAction, createReducer } from 'redux-act';
 import { endTurn as submitEndTurn, giveClue as submitGiveClue } from '../fetchers';
 import { getPlayerId } from './player-id-store';
-import { getGameId } from './game-store';
+import { getActiveGameId } from './game-store';
 import { AGENTS_PER_PLAYER } from '../rules/game';
 
 export const updateTurnsLeft = createAction('Update remaining turns left in the game');
@@ -45,7 +45,7 @@ export const getGuessesLeft = state => state && state.turns && state.turns.guess
 export function giveClue({ word, number }) {
 	return (dispatch, getState) => (
 		submitGiveClue({
-			gameId: getGameId(getState()),
+			gameId: getActiveGameId(getState()),
 			player: getPlayerId(getState()),
 			word,
 			number,
@@ -56,7 +56,7 @@ export function giveClue({ word, number }) {
 export function endTurn() {
 	return (dispatch, getState) => (
 		submitEndTurn({
-			gameId: getGameId(getState()),
+			gameId: getActiveGameId(getState()),
 		})
 	);
 }
