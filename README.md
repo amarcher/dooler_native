@@ -5,9 +5,10 @@ React Native Client for the Dooler App
 After cloning the repository and `cd`-ing into it, follow the instructions on [FB's Getting Started with React Native](http://facebook.github.io/react-native/docs/getting-started.html).
 
 1. Install XCode
-2. Install dependencies in three steps
+2. Install dependencies in four steps
 ```bash
 npm install
+npm install -g create-react-native-app
 npm install -g react-native-cli
 react-native link react-native-splash-screen
 ```
