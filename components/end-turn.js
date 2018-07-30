@@ -40,7 +40,7 @@ function mapStateToProps(state) {
 
 	return {
 		guessesLeft: getGuessesLeftForGameId(state, gameId),
-		playerId: getPlayerId(state),
+		playerId: getPlayerId(state, gameId),
 		turnsLeft: getTurnsLeftForGameId(state, gameId),
 	};
 }
