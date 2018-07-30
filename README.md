@@ -26,7 +26,7 @@ react-native run-ios
 ## Preparing a build for TestFlight:
 
 1. In Xcode, increment the build number by clicking on the Dooler project and on the Dooler target.
-2. Create an archive in Xcode *Product* > *Archive*
+2. Create an archive in Xcode *Product* > *Archive*. If the option is disabled, make sure your scheme destination is set to "Generic iOS Device" and not to a simulator.
 3. Select the archive in the resulting modal and click *Upload to iTunes Connect*
 4. Agree to all the defaults (allow automatic code signing)
 5. Go to https://itunesconnect.apple.com click Apps > TestFlight

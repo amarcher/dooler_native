@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Button from './Button';
 
 import { isAgent, isAssasin, isGuessed } from '../rules/words';
-import { makeGuess } from '../stores/game-store';
+import { getActiveGameId, makeGuess } from '../stores/game-store';
 import { getPlayerId } from '../stores/player-id-store';
 
 const propTypes = {
@@ -120,8 +120,10 @@ export class BaseWord extends Component {
 
 const mapDispatchToProps = { makeGuess };
 function mapStateToProps(state) {
+	const gameId = getActiveGameId(state);
+
 	return {
-		playerId: getPlayerId(state),
+		playerId: getPlayerId(state, gameId),
 	};
 }
 
