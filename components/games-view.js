@@ -10,6 +10,8 @@ import Button from './Button';
 import Text from './Text';
 import GameSummary from './game-summary';
 
+const RETRY_DELAY = 150;
+
 const styles = {
 	container: {
 		backgroundColor: 'black',
@@ -49,9 +51,7 @@ export class BaseGamesView extends Component {
 	}
 
 	componentDidMount() {
-		AccessToken.getCurrentAccessToken().then((data) => {
-			if (data && data.accessToken) this.props.getMe();
-		});
+		this.getMeWithRetry();
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -62,6 +62,15 @@ export class BaseGamesView extends Component {
 
 	onStartNewGame() {
 		this.props.navigation.navigate('EnterGame');
+	}
+
+	// TODO: Understand why we don’t have an access token immediately after the component mounts
+	getMeWithRetry(isRetry = true) {
+		AccessToken.getCurrentAccessToken().then(({ accessToken } = {}) => {
+			if (accessToken) this.props.getMe();
+		}).catch(() => {
+			if (!isRetry) window.setTimeout(() => this.getMeWithRetry(true), RETRY_DELAY);
+		});
 	}
 
 	renderGames() {
