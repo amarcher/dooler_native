@@ -1,5 +1,7 @@
 import { send } from './utils/ws';
+import { get } from './utils/ajax';
 import { graphRequest } from './utils/fb';
+import { isDebugMode } from './rules/env';
 
 /* Websocket Fetchers */
 
@@ -20,12 +22,17 @@ export function guess({ gameId, word, player } = {}) {
 }
 
 export function changePlayer({
-	gameId, player, playerName, token,
+	gameId, player, playerName, token, facebookId,
 }) {
 	send({
 		gameId,
 		type: 'changePlayer',
-		payload: { player, playerName, token },
+		payload: {
+			player,
+			playerName,
+			token,
+			facebookId,
+		},
 	});
 }
 
@@ -62,4 +69,11 @@ export function startNewGame({
 
 export function fetchMe() {
 	return graphRequest('/me');
+}
+
+/* HTTPS Fetchers */
+
+export function fetchGames({ facebookId } = {}) {
+	const hostname = isDebugMode() ? 'http://localhost:3000' : 'https://www.dooler.com';
+	return get(`${hostname}/games`, { facebookId });
 }

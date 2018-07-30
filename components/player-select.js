@@ -6,7 +6,9 @@ import Button from './Button';
 import Text from './Text';
 import TextInput from './TextInput';
 
-import { changePlayerId, getPlayerId, getPlayerName, setPlayerName } from '../stores/player-id-store';
+import { getActiveGameId } from '../stores/game-store';
+import { getPlayerName, setPlayerName } from '../stores/player-name-store';
+import { changePlayerId, getPlayerId } from '../stores/player-id-store';
 
 const propTypes = {
 	changePlayerId: PropTypes.func.isRequired,
@@ -93,9 +95,11 @@ BasePlayerSelect.defaultProps = defaultProps;
 const mapDispatchToProps = { setPlayerName, changePlayerId };
 
 function mapStateToProps(state) {
+	const gameId = getActiveGameId(state);
+
 	return {
-		playerId: getPlayerId(state),
-		playerName: getPlayerName(state),
+		playerId: getPlayerId(state, gameId),
+		playerName: getPlayerName(state, gameId),
 	};
 }
 

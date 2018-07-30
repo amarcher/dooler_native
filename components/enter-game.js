@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { KeyboardAvoidingView } from 'react-native';
 import { LoginButton, AccessToken } from 'react-native-fbsdk';
 
-import { setPlayerName, forgetMe, getMe, getPlayerName, getFacebookId } from '../stores/player-id-store';
+import { setPlayerName, forgetMe, getMe, getPlayerName, getFacebookId } from '../stores/player-name-store';
 import Button from './Button';
 import Text from './Text';
 import TextInput from './TextInput';
@@ -83,6 +83,7 @@ export class BaseEnterGame extends Component {
 		if (!facebookId && name) {
 			this.props.setPlayerName({ playerName: name });
 		}
+
 		this.props.navigation.navigate('Game', { gameId });
 	}
 

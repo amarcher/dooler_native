@@ -4,12 +4,17 @@ import { connect } from 'react-redux';
 import { View, Image } from 'react-native';
 import Text from './Text';
 
-import { getTurnsLeft } from '../stores/turns-store';
-import { getAgentsLeft } from '../stores/game-store';
+import { getTurnsLeftForGameId } from '../stores/turns-store';
+import { getAgentsLeftForGameId, getActiveGameId } from '../stores/game-store';
 
 const propTypes = {
-	agentsLeft: PropTypes.number.isRequired,
-	turnsLeft: PropTypes.number.isRequired,
+	agentsLeft: PropTypes.number,
+	turnsLeft: PropTypes.number,
+};
+
+const defaultProps = {
+	agentsLeft: undefined,
+	turnsLeft: undefined,
 };
 
 const styles = {
@@ -29,7 +34,9 @@ export class BaseTurnView extends Component {
 	}
 
 	renderTurns() {
-		const turnsLeft = Math.max(this.props.turnsLeft, 0);
+		const { turnsLeft } = this.props;
+
+		if (typeof turnsLeft !== 'number') return null;
 
 		if (turnsLeft < 1) {
 			return (
@@ -37,7 +44,7 @@ export class BaseTurnView extends Component {
 			);
 		}
 
-		return Array(turnsLeft).fill().map((_el, index) => (
+		return Array(Math.max(turnsLeft, 0)).fill().map((_el, index) => (
 			<Image source={require('../img/mushroom.png')} style={styles.turn} key={index} /> // eslint-disable-line react/no-array-index-key
 		));
 	}
@@ -55,11 +62,14 @@ export class BaseTurnView extends Component {
 }
 
 BaseTurnView.propTypes = propTypes;
+BaseTurnView.defaultProps = defaultProps;
 
 function mapStateToProps(state) {
+	const gameId = getActiveGameId(state);
+
 	return {
-		turnsLeft: getTurnsLeft(state),
-		agentsLeft: getAgentsLeft(state),
+		turnsLeft: getTurnsLeftForGameId(state, gameId),
+		agentsLeft: getAgentsLeftForGameId(state, gameId),
 	};
 }
 

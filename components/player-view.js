@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { View, Image } from 'react-native';
 import Text from './Text';
 
-import { getConnectedPlayerNames } from '../stores/players-store';
+import { getConnectedPlayerNamesForGameId } from '../stores/players-store';
+import { getActiveGameId } from '../stores/game-store';
 
 const propTypes = {
 	players: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -57,7 +58,7 @@ BasePlayerView.propTypes = propTypes;
 
 function mapStateToProps(state) {
 	return {
-		players: getConnectedPlayerNames(state),
+		players: getConnectedPlayerNamesForGameId(state, getActiveGameId(state)),
 	};
 }
 

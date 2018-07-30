@@ -2,9 +2,10 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createReduxBoundAddListener, createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 
-import gameReducer, { enterGame, getGameId, addOrReplaceGame, updateWordInGame } from './game-store';
+import gameReducer, { enterGame, getActiveGameId, addOrReplaceGame, updateWordInGame } from './game-store';
 import playersReducer, { incrementPlayerCount, decrementPlayerCount, clearPlayers } from './players-store';
-import playerIdReducer, { setPlayerId, getPlayerName } from './player-id-store';
+import playerIdReducer, { setPlayerId } from './player-id-store';
+import playerNameReducer, { getPlayerName } from './player-name-store';
 import turnsReducer, { updateTurnsLeft, updateClue, updateGuessesLeft } from './turns-store';
 import tokenReducer from './token-store';
 import navReducer from './nav-store';
@@ -23,6 +24,7 @@ export const store = createStore(
 		turns: turnsReducer,
 		players: playersReducer,
 		playerId: playerIdReducer,
+		playerName: playerNameReducer,
 		token: tokenReducer,
 		nav: navReducer,
 	}),
@@ -30,7 +32,8 @@ export const store = createStore(
 );
 
 export function onWsEvent(data) {
-	const { type, payload } = data;
+	const { type, payload: payloadWithoutGameId, gameId } = data;
+	const payload = { ...payloadWithoutGameId, gameId };
 
 	switch (type) {
 	case 'words':
@@ -55,10 +58,10 @@ export function onWsEvent(data) {
 
 export function onWsConnected() {
 	const state = store.getState();
-	const gameId = getGameId(state);
+	const gameId = getActiveGameId(state);
 	const playerName = getPlayerName(state);
 
-	store.dispatch(clearPlayers());
+	store.dispatch(clearPlayers({ gameId }));
 	return store.dispatch(enterGame({ gameId, playerName }));
 }
 
