@@ -10,7 +10,8 @@ import Button from './Button';
 import Text from './Text';
 import GameSummary from './game-summary';
 
-const RETRY_DELAY = 150;
+const RETRY_DELAY = 100;
+const MAX_RETRIES = 10;
 
 const styles = {
 	container: {
@@ -65,11 +66,13 @@ export class BaseGamesView extends Component {
 	}
 
 	// TODO: Understand why we don’t have an access token immediately after the component mounts
-	getMeWithRetry(isRetry = true) {
+	getMeWithRetry(retryCount = 0) {
 		AccessToken.getCurrentAccessToken().then(({ accessToken } = {}) => {
 			if (accessToken) this.props.getMe();
 		}).catch(() => {
-			if (!isRetry) window.setTimeout(() => this.getMeWithRetry(true), RETRY_DELAY);
+			if (retryCount < MAX_RETRIES) {
+				window.setTimeout(() => this.getMeWithRetry(retryCount + 1), RETRY_DELAY);
+			}
 		});
 	}
 
