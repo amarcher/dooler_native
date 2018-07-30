@@ -11,8 +11,8 @@ import EndTurn from './end-turn';
 import Button from './Button';
 
 import { close as closeWebSocket } from '../utils/ws';
-import { getPlayerName } from '../stores/player-id-store';
-import { enterGame, getGame } from '../stores/game-store';
+import { getPlayerName } from '../stores/player-name-store';
+import { enterGame, getGameById } from '../stores/game-store';
 import { addToken } from '../stores/token-store';
 import { enableNotifications } from '../utils/notifications';
 
@@ -100,7 +100,7 @@ function mapStateToProps(state, ownProps) {
 
 	return {
 		playerName: getPlayerName(state),
-		game: getGame(state),
+		game: getGameById(state, gameId),
 		gameId,
 	};
 }

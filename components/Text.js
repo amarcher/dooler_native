@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Text as BaseText } from 'react-native';
 
 const propTypes = {
-	style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+	style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]), // eslint-disable-line react/forbid-prop-types
 	children: PropTypes.node,
 };
 
@@ -25,8 +25,11 @@ export default class Text extends Component {
 	render() {
 		const { children, style, ...props } = this.props;
 
+		// TODO: understand where Array values for style come from
+		const appliedStyle = style instanceof Array ? {} : style;
+
 		return (
-			<BaseText style={{ ...defaultStyle, ...style }} {...props}>
+			<BaseText style={{ ...defaultStyle, ...appliedStyle }} {...props}>
 				{children}
 			</BaseText>
 		);

@@ -4,7 +4,7 @@ import { TouchableHighlight } from 'react-native';
 import Text from './Text';
 
 const propTypes = {
-	style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+	style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]), // eslint-disable-line react/forbid-prop-types
 	title: PropTypes.string,
 	numberOfLines: PropTypes.number,
 	adjustsFontSizeToFit: PropTypes.bool,
@@ -65,8 +65,11 @@ export default class Button extends Component {
 			style, title, adjustsFontSizeToFit, numberOfLines, ...props
 		} = this.props;
 
-		const textStyle = getTextStyle(style);
-		const touchableHighlightStyle = getTouchableHighlightStyle(style);
+		// TODO: understand where Array values for style come from
+		const appliedStyle = style instanceof Array ? {} : style;
+
+		const textStyle = getTextStyle(appliedStyle);
+		const touchableHighlightStyle = getTouchableHighlightStyle(appliedStyle);
 
 		return (
 			<TouchableHighlight style={touchableHighlightStyle} activeOpacity={0.8} {...props}>

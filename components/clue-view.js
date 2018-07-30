@@ -6,8 +6,8 @@ import Text from './Text';
 import TextInput from './TextInput';
 import Button from './Button';
 
-import { getClue, getGuessesLeft, getTurnsLeft, giveClue } from '../stores/turns-store';
-import { startNew } from '../stores/game-store';
+import { getClueForGameId, getGuessesLeftForGameId, getTurnsLeftForGameId, giveClue } from '../stores/turns-store';
+import { startNew, getActiveGameId } from '../stores/game-store';
 import { getPlayerId } from '../stores/player-id-store';
 
 const propTypes = {
@@ -124,11 +124,13 @@ BaseClueView.defaultProps = defaultProps;
 const mapDispatchToProps = { giveClue, startNew };
 
 function mapStateToProps(state) {
+	const gameId = getActiveGameId(state);
+
 	return {
-		clue: getClue(state),
-		guessesLeft: getGuessesLeft(state),
+		clue: getClueForGameId(state, gameId),
+		guessesLeft: getGuessesLeftForGameId(state, gameId),
 		playerId: getPlayerId(state),
-		turnsLeft: getTurnsLeft(state),
+		turnsLeft: getTurnsLeftForGameId(state, gameId),
 	};
 }
 

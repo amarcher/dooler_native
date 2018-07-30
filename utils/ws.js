@@ -1,4 +1,5 @@
 import noop from './helpers';
+import { isDebugMode } from '../rules/env';
 
 let wsEvent = noop;
 let wsConnected = noop;
@@ -6,7 +7,7 @@ let wsConnected = noop;
 let connectingPromise;
 let ws;
 
-const HOST = 'wss://www.dooler.com/';
+const HOST = isDebugMode() ? 'ws://localhost:3000/' : 'wss://www.dooler.com/';
 const RECONNECT_INTERVAL = 5000;
 const READY_STATES = {
 	CONNECTING: 0,
@@ -81,7 +82,6 @@ export function start() {
 		onConnect();
 	}).catch(() => {
 		// Web socket failed to connect
-		console.log('reconnecting'); // eslint-disable-line no-console
 		ws = undefined;
 
 		return new Promise(resolve => setTimeout(resolve, RECONNECT_INTERVAL)).then(() => {
