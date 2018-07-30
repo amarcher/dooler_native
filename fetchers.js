@@ -5,11 +5,16 @@ import { isDebugMode } from './rules/env';
 
 /* Websocket Fetchers */
 
-export function fetchGame({ gameId, playerName, token } = {}) {
+export function fetchGame({
+	gameId,
+	playerName,
+	token,
+	facebookId,
+} = {}) {
 	send({
 		type: 'words',
 		gameId,
-		payload: { playerName, token },
+		payload: { playerName, token, facebookId },
 	});
 }
 
