@@ -2,6 +2,7 @@ import { createAction, createReducer } from 'redux-act';
 import { changePlayer } from '../fetchers';
 import { getActiveGameId } from './game-store';
 import { getPlayerName, getFacebookId } from './player-name-store';
+import { getToken } from './token-store';
 
 export const setPlayerId = createAction('Set player id');
 export const setPlayerName = createAction('Set player name');
@@ -34,6 +35,7 @@ export function changePlayerId({ playerId }) {
 			player: playerId,
 			playerName: getPlayerName(state),
 			facebookId: getFacebookId(state),
+			token: getToken(state),
 		});
 	};
 }
