@@ -4,6 +4,7 @@ import { updateTurnsLeft } from './turns-store';
 import { clearPlayers } from './players-store';
 import { getPlayerId, setPlayerId } from './player-id-store';
 import { getFacebookId } from './player-name-store';
+import { getToken } from './token-store';
 import { TOTAL_AGENTS } from '../rules/game';
 import { isAgent } from '../rules/words';
 
@@ -81,8 +82,15 @@ export function enterGame({ gameId, playerName }) {
 		// replace the game with an dummy game (just an id)
 		// until we have a full game object from web socket
 		dispatch(addOrReplaceGame({ gameId }));
-		const facebookId = getFacebookId(getState());
-		return fetchGame({ gameId, playerName, facebookId });
+		const state = getState();
+		const facebookId = getFacebookId(state);
+		const token = getToken(state);
+		return fetchGame({
+			gameId,
+			playerName,
+			token,
+			facebookId,
+		});
 	};
 }
 
